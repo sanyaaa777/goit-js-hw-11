@@ -1,38 +1,38 @@
-const form = document.querySelector('.feedback-form');
-const STORAGE_KEY = 'feedback-form-state';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
-let formData = {
-  email: '',
-  message: '',
-};
+const gallery = document.querySelector(".gallery");
 
-const savedData = localStorage.getItem(STORAGE_KEY);
-if (savedData) {
-  try {
-    formData = JSON.parse(savedData) || {};
-    form.elements.email.value = formData.email?.trim() || '';
-    form.elements.message.value = formData.message?.trim() || '';
-  } catch (error) {
-    console.error('Error parsing localStorage data:', error);
-  }
+export function displayImages(images) {
+    gallery.innerHTML = "";
+
+    const markup = images
+        .map(
+            (image) => `
+        <li class="img-card">
+            <a href="${image.largeImageURL}">
+                <img 
+                    src="${image.webformatURL}" 
+                    alt="${image.tags}" 
+                    data-source="${image.largeImageURL}" 
+                />
+            </a>
+            <div class="image-info">
+                <p><strong>Likes:</strong> ${image.likes}</p>
+                <p><strong>Views:</strong> ${image.views}</p>
+                <p><strong>Comments:</strong> ${image.comments}</p>
+                <p><strong>Downloads:</strong> ${image.downloads}</p>
+            </div>
+        </li>`
+        )
+        .join("");
+
+    gallery.innerHTML = `${markup}`;
+
+    const lightbox = new SimpleLightbox(".gallery a", {
+        captionsData: "alt",
+        captionDelay: 250,
+    });
+
+    lightbox.refresh();
 }
-
-form.addEventListener('input', event => {
-  formData[event.target.name] = event.target.value.trim();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-});
-
-form.addEventListener('submit', event => {
-  event.preventDefault();
-
-  if (!formData.email || !formData.message) {
-    alert('Fill please all fields');
-    return;
-  }
-
-  console.log('Submitted Data:', formData);
-
-  localStorage.removeItem(STORAGE_KEY);
-  form.reset();
-  formData = { email: '', message: '' };
-});
