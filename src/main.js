@@ -5,6 +5,7 @@ import { displayImages } from './js/render-functions';
 
 const form = document.querySelector('form');
 const loadingMessage = document.getElementById('loading-message');
+const gallery = document.querySelector('.gallery');
 
 form.addEventListener('submit', async evt => {
   evt.preventDefault();
@@ -28,6 +29,7 @@ form.addEventListener('submit', async evt => {
     const images = await axiosImages(inputValue);
 
     if (!images || images.length === 0) {
+      gallery.innerHTML = '';
       iziToast.warning({
         message:
           'Sorry, there are no images matching your search query. Please try again!',

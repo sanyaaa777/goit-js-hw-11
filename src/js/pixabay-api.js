@@ -1,4 +1,6 @@
 import axios from "axios";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css"; 
 
 const loadingMessage = document.getElementById("loading-message");
 const myApiKey = "49411735-b32ab4d57ab72698c2bda355f";
@@ -16,18 +18,16 @@ export async function axiosImages(query) {
             },
         });
         return response.data.hits;
-    } catch {
-        (error => {
-            console.error("Error fetching images:", error);
-            iziToast.error({
-                message: "An error occurred while fetching images. Please try again!",
-                position: "topRight",
-                messageColor: "#FAFAFB",
-                backgroundColor: "#EF4040"
-            });
-        })
-        .finally(() => {
-            loadingMessage.style.display = "none";
+    } catch (error) {
+        console.error("Error fetching images:", error);
+        iziToast.error({
+            message: "An error occurred while fetching images. Please try again!",
+            position: "topRight",
+            messageColor: "#FAFAFB",
+            backgroundColor: "#EF4040"
         });
+        return [];
+    } finally {
+        if (loadingMessage) loadingMessage.style.display = "none";
     }
 }
