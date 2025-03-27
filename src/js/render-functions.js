@@ -28,6 +28,13 @@ export function displayImages(images) {
         .join("");
 
     gallery.innerHTML = `${markup}`;
-    
-    lightbox.refresh();
+
+    if (!lightbox) {
+        lightbox = new SimpleLightbox('.gallery a', {
+            captionsData: 'alt',
+            captionDelay: 250,
+        });
+    } else {
+        lightbox.refresh();
+    }
 }
