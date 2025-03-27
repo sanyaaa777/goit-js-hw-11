@@ -30,10 +30,7 @@ export function displayImages(images) {
     gallery.innerHTML = `${markup}`;
 
     if (!lightbox) {
-        lightbox = new SimpleLightbox('.gallery a', {
-            captionsData: 'alt',
-            captionDelay: 250,
-        });
+        lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
     } else {
         lightbox.refresh();
     }
