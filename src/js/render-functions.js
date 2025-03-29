@@ -1,14 +1,14 @@
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const gallery = document.querySelector(".gallery");
-
+const gallery = document.querySelector('.gallery');
+let lightbox;
 export function displayImages(images) {
-    gallery.innerHTML = "";
+  gallery.innerHTML = '';
 
-    const markup = images
-        .map(
-            (image) => `
+  const markup = images
+    .map(
+      image => `
         <li class="img-card">
             <a href="${image.largeImageURL}">
                 <img 
@@ -24,14 +24,17 @@ export function displayImages(images) {
                 <p><strong>Downloads:</strong> ${image.downloads}</p>
             </div>
         </li>`
-        )
-        .join("");
+    )
+    .join('');
 
-    gallery.innerHTML = `${markup}`;
+  gallery.innerHTML = markup;
 
-    if (!lightbox) {
-        lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
-    } else {
-        lightbox.refresh();
-    }
+  if (!lightbox) {
+    lightbox = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionDelay: 250,
+    });
+  } else {
+    lightbox.refresh();
+  }
 }
